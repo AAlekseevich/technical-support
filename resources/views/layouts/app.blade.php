@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title') - Техническая поддержка</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -29,7 +29,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Техническая поддержка') }}
+                        Тех. поддержка
                     </a>
                 </div>
 
@@ -38,10 +38,10 @@
                     <ul class="nav navbar-nav">
                         @if(Auth::user())
                             @if(Auth::user()->is_manager)
-                                <li><a href="home">Список заявок</a></li>
+                                <li><a href="{{ route('manager-list-tickets') }}">Список заявок</a></li>
                             @else
-                                <li><a href="home">Список заявок</a></li>
-                                <li><a href="">Создать заявку</a></li>
+                                <li><a href="{{ route('user-list-tickets') }}">Список заявок</a></li>
+                                <li><a href="{{ route('create-ticket') }}">Создать заявку</a></li>
                             @endif
                         @endif
                     </ul>
