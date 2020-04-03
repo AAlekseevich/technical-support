@@ -26,6 +26,12 @@
                         <p>Создана: {{ $ticket->created_at }}</p>
                     </div>
 
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
                     <hr>
 
                     <div class="comments">

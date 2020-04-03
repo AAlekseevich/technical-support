@@ -9,7 +9,7 @@ class Ticket extends Model
 {
     protected $table = 'tickets';
 
-    protected $fillable = ['user_id', 'ticket_id', 'title', 'message', 'file', 'status'];
+    protected $fillable = ['user_id', 'ticket_id', 'title', 'message', 'file', 'manager_email', 'status'];
 
     public function user(){
         return $this->belongsTo(User::class);

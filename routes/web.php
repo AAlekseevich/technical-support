@@ -19,26 +19,27 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', function () {
-    if(Auth::user()->is_manager) {
-        return view('manager.tickets-list');
-    }
-    return view('user.tickets-list');
-});
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', function () {
+        if(Auth::user()->is_manager) {
+            return redirect('manager/home');
+        }
+        return redirect('client/home');
+    });
+    Route::group(['middleware' => 'auth', 'prefix' => 'client'], function () {
+        Route::get('/home', 'TicketController@userListTickets')->name('user-list-tickets');
+        Route::get('/create', 'TicketController@create')->name('create-ticket');
+        Route::post('/new-ticket', 'TicketController@newTicket')->name('new-ticket');
+        Route::get('/ticket/{ticket_id}', 'TicketController@show')->name('show-ticket');
+        Route::get('/ticket/close/{ticket_id}', 'TicketController@close')->name('close-ticket');
+        Route::get('/ticket/open/{ticket_id}', 'TicketController@open')->name('open-ticket');
+        Route::post('/comment/add', 'CommentController@add')->name('add-comment');
+    });
 
-Route::group(['prefix' => 'client'], function () {
-    Route::get('/home', 'TicketController@userListTickets')->name('user-list-tickets');
-    Route::get('/create', 'TicketController@create')->name('create-ticket');
-    Route::post('/new-ticket', 'TicketController@newTicket')->name('new-ticket');
-    Route::get('/ticket/{ticket_id}', 'TicketController@show')->name('show-ticket');
-    Route::get('/ticket/close/{ticket_id}', 'TicketController@close')->name('close-ticket');
-    Route::get('/ticket/open/{ticket_id}', 'TicketController@open')->name('open-ticket');
-    Route::post('/comment/add', 'CommentController@add')->name('add-comment');
-});
-
-Route::group(['middleware' => 'manager', 'prefix' => 'manager'], function () {
-    Route::get('/home', 'TicketController@managerListTickets')->name('manager-list-tickets');
-    Route::get('/ticket/{ticked_id}', 'TicketController@showTicket')->name('manager-show-ticket');
-    Route::get('/process/{ticked_id}', 'TicketController@processTicket')->name('process-ticket');
+    Route::group(['middleware' => 'manager', 'prefix' => 'manager'], function () {
+        Route::get('/home', 'TicketController@managerListTickets')->name('manager-list-tickets');
+        Route::get('/ticket/{ticked_id}', 'TicketController@showTicket')->name('manager-show-ticket');
+        Route::get('/process/{ticked_id}', 'TicketController@processTicket')->name('process-ticket');
+    });
 });
 
