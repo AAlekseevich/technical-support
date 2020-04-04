@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class TicketController extends Controller
 {
@@ -89,7 +90,7 @@ class TicketController extends Controller
     public function newTicket(Request $request, AppMailer $mailer)
     {
         $lastTicket = Ticket::where('user_id', Auth::user()->id)
-            ->where('created_at', '>', Carbon::now()->subDay())
+            ->where('created_at', '>', Carbon::now()->subMinutes(Config::get('constants.MINUTES')))
             ->first();
         if ($lastTicket) {
             return redirect()->back()->with("status", "Заявку можно подавать только раз в сутки.");
@@ -112,7 +113,7 @@ class TicketController extends Controller
             'title' => $request->input('title'),
             'message' => $request->input('message'),
             'manager_email' => $manager->email,
-            'file' => $path,
+            'file' => isset($path) ? $path : '',
             'status' => 'Open',
         ]);
 

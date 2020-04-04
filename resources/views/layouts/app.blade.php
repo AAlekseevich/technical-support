@@ -38,7 +38,9 @@
                     <ul class="nav navbar-nav">
                         @if(Auth::user())
                                 <li><a href="{{ route('home') }}">Список заявок</a></li>
-                                <li><a href="{{ route('create-ticket') }}">Создать заявку</a></li>
+                                @if(Auth::user()->isMember())
+                                    <li><a href="{{ route('create-ticket') }}">Создать заявку</a></li>
+                                @endif
                         @endif
                     </ul>
 
