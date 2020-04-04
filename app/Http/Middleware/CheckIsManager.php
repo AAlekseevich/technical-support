@@ -16,7 +16,7 @@ class CheckIsManager
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->is_manager) {
+        if(Auth::user()->isManager()) {
             return $next($request);
         }
         return redirect('/');

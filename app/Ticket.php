@@ -11,6 +11,19 @@ class Ticket extends Model
 
     protected $fillable = ['user_id', 'ticket_id', 'title', 'message', 'file', 'manager_email', 'status'];
 
+    public function getDataForTable($userId, $filter)
+    {
+        $query = self::select('*');
+        if (!empty($userId)) {
+            $query = self::where('user_id', $userId);
+        }
+        if(empty($filter['sort_col']) || !in_array($filter['sort_col'], $this->fillable)) {
+            return $query->get();
+        }
+        $sort = !empty($filter['sort_type']) ? 'desc' : 'asc';
+        return $query->orderBy($filter['sort_col'], $sort)->get();
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }

@@ -8,8 +8,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     #{{ $ticket->ticket_id }} - {{ $ticket->title }}
+                    @if($ticket->status === "Open")
                     <a href="{{ route('close-ticket', ['ticket_id' => $ticket->ticket_id]) }}" class="btn btn-danger btn-xs pull-right" role="button">Закрыть</a>
+                    @else
                     <a href="{{ route('open-ticket', ['ticket_id' => $ticket->ticket_id]) }}" style="margin-right: 5px" class="btn btn-success btn-xs pull-right" role="button">Открыть</a>
+                    @endif
                 </div>
 
                 <div class="panel-body">

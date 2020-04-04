@@ -21,6 +21,7 @@ class CommentController extends Controller
             'ticket_id' => $request->input('ticket_id'),
             'user_id' => Auth::user()->id,
             'comment' => $request->input('comment'),
+            'file' => $request->input('file'),
         ]);
 
         $comment->save();
@@ -32,6 +33,6 @@ class CommentController extends Controller
             $mailer->sendUserComment(Auth::user(), $comment->ticket, $comment);
         }
 
-        return redirect()->back()->with("status", "Ваш ответ добавлен");
+        return redirect()->back();
     }
 }

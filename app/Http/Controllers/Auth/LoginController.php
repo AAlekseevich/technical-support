@@ -23,13 +23,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if($user->is_manager) {
-            return redirect('manager/home');
-        } elseif ($user) {
-            return redirect('client/home');
-        } else {
-            return redirect('/');
-        }
+        return redirect('/home');
     }
 
     /**

@@ -8,14 +8,18 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     #{{ $ticket->ticket_id }} - {{ $ticket->title }}
-                    <a href="{{ route('close-ticket', ['ticket_id' => $ticket->ticket_id]) }}" class="btn btn-danger btn-xs pull-right" role="button">Закрыть</a>
-                    <a href="{{ route('process-ticket', ['ticket_id' => $ticket->ticket_id]) }}" style="margin-right: 5px" class="btn btn-primary btn-xs pull-right" role="button">Выполнить</a>
+                    @if($ticket->status !== 'Close')
+                        <a href="{{ route('close-ticket', ['ticket_id' => $ticket->ticket_id]) }}" class="btn btn-danger btn-xs pull-right" role="button">Закрыть</a>
+                    @else
                     <a href="{{ route('open-ticket', ['ticket_id' => $ticket->ticket_id]) }}" style="margin-right: 5px" class="btn btn-success btn-xs pull-right" role="button">Открыть</a>
+                    @endif
+                    <a href="{{ route('process-ticket', ['ticket_id' => $ticket->ticket_id]) }}" style="margin-right: 5px" class="btn btn-primary btn-xs pull-right" role="button">Выполнить</a>
                 </div>
 
                 <div class="panel-body">
                     <div class="ticket-info">
                         <p>Сообщение: {{ $ticket->message }}</p>
+                        <p>Прикрепленный файл: <a href="{{ asset('uploads/' . $ticket->file ) }}" target="_blank">Файл</a></p>
                         <p>
                             @if ($ticket->status === 'Open')
                                 Статус: <span class="label label-success">Открыта</span>
@@ -27,6 +31,12 @@
                         </p>
                         <p>Создана: {{ $ticket->created_at }}</p>
                     </div>
+
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
                     <hr>
 

@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'is_manager',
     ];
 
     /**
@@ -26,6 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function isManager()
+    {
+        return !empty($this->is_manager);
+    }
+
+    public function isMember()
+    {
+        return !$this->isManager();
+    }
 
     public function tickets(){
         return $this->hasMany(Ticket::class);

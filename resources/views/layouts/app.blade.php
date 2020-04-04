@@ -37,12 +37,8 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         @if(Auth::user())
-                            @if(Auth::user()->is_manager)
-                                <li><a href="{{ route('manager-list-tickets') }}">Список заявок</a></li>
-                            @else
-                                <li><a href="{{ route('user-list-tickets') }}">Список заявок</a></li>
+                                <li><a href="{{ route('home') }}">Список заявок</a></li>
                                 <li><a href="{{ route('create-ticket') }}">Создать заявку</a></li>
-                            @endif
                         @endif
                     </ul>
 

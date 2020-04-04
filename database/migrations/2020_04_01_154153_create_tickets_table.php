@@ -19,7 +19,9 @@ class CreateTicketsTable extends Migration
             $table->string('ticket_id')->unique();
             $table->string('title');
             $table->text('message');
+            $table->string('file');
             $table->string('status');
+            $table->string('manager_email');
             $table->timestamps();
         });
     }

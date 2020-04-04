@@ -69,11 +69,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        @if(Auth::user()->is_manager)
-                            <a href="{{ route('manager-list-tickets') }}">Кабинет</a>
-                        @else
-                            <a href="{{ route('user-list-tickets') }}">Кабинет</a>
-                        @endif
+                        <a href="{{ route('home') }}">Кабинет</a>
                         <a href="{{ route('logout') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
 
